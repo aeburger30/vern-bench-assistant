@@ -1,0 +1,9 @@
+[project]
+name = "vern-bench-assistant"
+version = "0.2.0"
+description = "V.E.R.N. (Model VS-20501) — Vintage Electronics Restoration Navigator & Multimodal AI Bench Companion"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
