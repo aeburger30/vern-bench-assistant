@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Deterministic vintage semiconductor substitution rules and pinout guardrails for V.E.R.N. (Model VS-20501).",
+  "packaging_suffixes_to_strip": [
+    "FTA",
+    "FBU",
+    "YTA",
+    "YBU",
+    "GRTA",
+    "GRBU",
+    "OTA",
+    "OBU",
+    "TA",
+    "BU",
+    "TF",
+    "TFR"
+  ],
+  "transistors": {
+    "2SC458": {
+      "part_number": "2SC458",
+      "aliases": ["2SC458LG", "2SC458B", "2SC458C", "2SC458D", "C458"],
+      "polarity": "NPN",
+      "original_specs": {
+        "V_CEO_V": 30,
+        "I_C_mA": 100,
+        "P_C_mW": 200,
+        "f_T_MHz": 230,
+        "h_FE_ranks": {
+          "B": [100, 200],
+          "C": [160, 320],
+          "D": [400, 800],
+          "LG": [160, 500]
+        }
+      },
+      "known_failure_mode": "Silver migration along outhouse/tombstone legs causing popcorn noise, crackle, hiss, and thermal intermittent cutoff.",
+      "package_variants": {
+        "X-172_TOMBSTONE": {
+          "description": "Early rectangular angled-top ('tombstone' / 'outhouse') package",
+          "pinout_front_flat_face_left_to_right": "B-C-E",
+          "pin_1": "Base",
+          "pin_2": "Collector",
+          "pin_3": "Emitter"
+        },
+        "TO-92_LATER": {
+          "description": "Later standard TO-92 half-round package",
+          "pinout_front_flat_face_left_to_right": "E-C-B",
+          "pin_1": "Emitter",
+          "pin_2": "Collector",
+          "pin_3": "Base"
+        }
+      },
+      "substitution_rules": {
+        "low_current_signal_stage": {
+          "max_stage_current_mA": 50,
+          "typical_stage_current_mA": [0.5, 5.0],
+          "applicable_stages": ["phono_preamp", "tone_control", "voltage_amp", "tape_eq", "line_stage", "general"],
+          "recommended_part": "KSC1845F",
+          "notes": "Onsemi KSC1845F (50V, 50mA, h_FE 300-600) is ideal for low-noise small-signal stages under 50mA."
+        },
+        "high_current_driver_or_switching_stage": {
+          "min_stage_current_mA": 50,
+          "max_stage_current_mA": 100,
+          "applicable_stages": ["driver", "switching", "relay_driver", "muting_switch", "high_current"],
+          "flag_current_deficit": true,
+          "deficit_warning": "CURRENT DEFICIT WARNING: Original 2SC458 is rated for 100mA I_C, whereas KSC1845 is limited to 50mA maximum!",
+          "recommended_part": "KSC1815",
+          "alternate_part": "ZTX694B",
+          "notes": "Use Onsemi KSC1815 (150mA I_C) or Diodes Inc. ZTX694B (1000mA I_C, high beta) when circuit approaches 50mA-100mA."
+        },
+        "high_gain_d_rank_guardrail": {
+          "rank": "D",
+          "h_FE_range": [400, 800],
+          "examples": ["Kenwood KA-6000 preamp", "Sansui phono EQ"],
+          "low_gain_warning": "GAIN RANK WARNING: 2SC458D requires h_FE 400-800. Do NOT install KSC1815Y (h_FE 120-240) in a D-rank position! Use KSC1845F (h_FE 300-600) for <50mA stages or ZTX694B (h_FE 500+) for higher current."
+        }
+      },
+      "mandatory_pinout_trap": {
+        "hud_flashcard_banner": "[ KSC1845: E-C-B | ROTATE 180° FROM TOMBSTONE ]",
+        "verification_instruction": "Early X-172 Tombstone 2SC458 uses B-C-E looking at the flat front face. Modern KSC1845/KSC1815 uses E-C-B. Rotate 180 degrees relative to X-172 silkscreen and verify 0.6V-0.7V diode drop (B-C and B-E) with multimeter before soldering."
+      }
+    },
+    "KSC1845": {
+      "part_number": "KSC1845",
+      "aliases": ["KSC1845F", "KSC1845FTA", "KSC1845FBU", "KSC1845E", "KSC1845U"],
+      "polarity": "NPN",
+      "original_specs": {
+        "V_CEO_V": 120,
+        "I_C_mA": 50,
+        "P_C_mW": 500,
+        "f_T_MHz": 110,
+        "h_FE_ranks": {
+          "P": [200, 400],
+          "F": [300, 600],
+          "E": [400, 800],
+          "U": [600, 1200]
+        }
+      },
+      "package_variants": {
+        "TO-92": {
+          "description": "Standard TO-92 package",
+          "pinout_front_flat_face_left_to_right": "E-C-B",
+          "pin_1": "Emitter",
+          "pin_2": "Collector",
+          "pin_3": "Base"
+        }
+      }
+    },
+    "KSC1815": {
+      "part_number": "KSC1815",
+      "aliases": ["KSC1815Y", "KSC1815GR", "KSC1815O", "KSC1815YTA", "KSC1815GRTA"],
+      "polarity": "NPN",
+      "original_specs": {
+        "V_CEO_V": 50,
+        "I_C_mA": 150,
+        "P_C_mW": 400,
+        "f_T_MHz": 80,
+        "h_FE_ranks": {
+          "O": [70, 140],
+          "Y": [120, 240],
+          "GR": [200, 400]
+        }
+      },
+      "package_variants": {
+        "TO-92": {
+          "description": "Standard TO-92 package",
+          "pinout_front_flat_face_left_to_right": "E-C-B",
+          "pin_1": "Emitter",
+          "pin_2": "Collector",
+          "pin_3": "Base"
+        }
+      }
+    },
+    "ZTX694B": {
+      "part_number": "ZTX694B",
+      "aliases": ["ZTX694"],
+      "polarity": "NPN",
+      "original_specs": {
+        "V_CEO_V": 120,
+        "I_C_mA": 1000,
+        "P_C_mW": 1000,
+        "f_T_MHz": 130,
+        "h_FE_ranks": {
+          "B": [500, 1000]
+        }
+      },
+      "package_variants": {
+        "E-LINE": {
+          "description": "E-Line (TO-92 style) package — verify C-B-E pinout!",
+          "pinout_front_flat_face_left_to_right": "C-B-E",
+          "pin_1": "Collector",
+          "pin_2": "Base",
+          "pin_3": "Emitter"
+        }
+      }
+    },
+    "2SA725": {
+      "part_number": "2SA725",
+      "aliases": ["2SA726", "A725", "A726"],
+      "polarity": "PNP",
+      "original_specs": {
+        "V_CEO_V": -35,
+        "I_C_mA": -100,
+        "P_C_mW": 150,
+        "f_T_MHz": 100,
+        "h_FE_ranks": {
+          "F": [160, 320],
+          "G": [250, 500]
+        }
+      },
+      "known_failure_mode": "Notorious Pioneer/Marantz differential pair noise generator (burst noise and DC offset drift).",
+      "package_variants": {
+        "TO-92_BCE": {
+          "description": "Note: 2SA725/2SA726 often uses B-C-E or E-C-B depending on sub-variant; always verify silkscreen!",
+          "pinout_front_flat_face_left_to_right": "B-C-E"
+        }
+      },
+      "substitution_rules": {
+        "low_current_signal_stage": {
+          "max_stage_current_mA": 50,
+          "recommended_part": "KSA992F",
+          "notes": "Match h_FE within 2% and thermally couple with heat-shrink when replacing differential input pairs."
+        }
+      }
+    },
+    "KSA992": {
+      "part_number": "KSA992",
+      "aliases": ["KSA992F", "KSA992FTA", "KSA992FBU"],
+      "polarity": "PNP",
+      "original_specs": {
+        "V_CEO_V": -120,
+        "I_C_mA": -50,
+        "P_C_mW": 500,
+        "f_T_MHz": 100,
+        "h_FE_ranks": {
+          "P": [200, 400],
+          "F": [300, 600]
+        }
+      },
+      "package_variants": {
+        "TO-92": {
+          "description": "Standard TO-92 package",
+          "pinout_front_flat_face_left_to_right": "E-C-B",
+          "pin_1": "Emitter",
+          "pin_2": "Collector",
+          "pin_3": "Base"
+        }
+      }
+    }
+  }
+}

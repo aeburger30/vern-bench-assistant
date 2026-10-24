@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Vintage Pioneer / Sansui / Marantz Electrolytic & Solid Aluminum Capacitor Translation Table for V.E.R.N.",
+  "schematic_codes": {
+    "CEA": {
+      "schematic_code": "CEA",
+      "original_type": "Standard Aluminum Electrolytic",
+      "modern_nichicon_series": ["UPW", "UHE", "UPM"],
+      "primary_recommendation": "UPW",
+      "power_supply_recommendation": "UPM",
+      "application_rule": "General filtering/coupling; UPM for power supplies."
+    },
+    "CEANL": {
+      "schematic_code": "CEANL",
+      "original_type": "Low-Noise / Low-Leakage Electrolytic",
+      "modern_nichicon_series": ["UKL", "UVR"],
+      "primary_recommendation": "UKL",
+      "film_upgrade_under_uf": 4.7,
+      "film_upgrade_series": "WIMA MKS2 (50V/63V Polyester Film)",
+      "application_rule": "Mandatory in high-gain phono/tone paths to prevent hiss."
+    },
+    "CSSA": {
+      "schematic_code": "CSSA",
+      "aliases": ["CSZA"],
+      "original_type": "Solid Aluminum / Tantalum (Sky-Blue Sanyo Cap-Trode)",
+      "modern_nichicon_series": ["UKL"],
+      "primary_recommendation": "UKL",
+      "film_upgrade_under_uf": 4.7,
+      "film_upgrade_series": "WIMA MKS2",
+      "application_rule": "Replace degraded sky-blue Sanyo CSSA or tantalum caps with UKL."
+    },
+    "CSZA": {
+      "schematic_code": "CSZA",
+      "aliases": ["CSSA"],
+      "original_type": "Tantalum / Solid Aluminum Electrolytic",
+      "modern_nichicon_series": ["UKL"],
+      "primary_recommendation": "UKL",
+      "application_rule": "Replace degraded sky-blue Sanyo CSSA or tantalum caps with UKL."
+    },
+    "CEB": {
+      "schematic_code": "CEB",
+      "original_type": "Axial Aluminum Electrolytic",
+      "modern_nichicon_series": ["TVX", "UPW"],
+      "primary_recommendation": "TVX",
+      "application_rule": "Standard axial electrolytic replacement; use Vishay MAL2138 or Nichicon TVX."
+    }
+  },
+  "voltage_bump_rules": {
+    "80": {
+      "original_voltage_v": 80,
+      "target_voltage_v": 100,
+      "rule_name": "80V Rated -> 100V Equivalent",
+      "original_type": "Main Filter / Rail Capacitor",
+      "modern_recommendation": "100V Equivalent (e.g., Nichicon LKG / UKW / UPM 100V)",
+      "reason": "80V caps are obsolete/scarce; always bump 80V ratings to 100V."
+    },
+    "6.3": {
+      "original_voltage_v": 6.3,
+      "target_voltage_v": 16,
+      "rule_name": "6.3V -> 16V/25V Modern Equivalent",
+      "original_type": "Low-Voltage Cathode/Emitter Bypass",
+      "modern_recommendation": "16V or 25V Equivalent",
+      "reason": "Modern 16V/25V caps match vintage 6.3V physical lead spacing and lower ESR."
+    }
+  }
+}
